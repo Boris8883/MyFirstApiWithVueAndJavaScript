@@ -13,17 +13,22 @@ Vue.component('table-users', {
 
     template: Content.loadContent('table_users.html')
 })
- new Vue({
+var app = new Vue({
     el: '#app',
     vuetify: new Vuetify(),
-    data: {
-        users:[],
-        headers:[
-            {text: 'Name', value: 'name'},
-            {text: 'Email', value: 'email'},
-            {text: 'Phone', value: 'phone'},
-            {text: 'Website', value: 'website'},
-        ],
+    data () {
+
+        return {
+            decision: false,
+            users_data:[],
+            headers:[
+                {text: 'Name', value: 'name'},
+                {text: 'Email', value: 'email'},
+                {text: 'Phone', value: 'phone'},
+                {text: 'Website', value: 'website'},
+            ],
+        }
+      
        
     },
     methods:
@@ -33,15 +38,18 @@ Vue.component('table-users', {
             let data;
             $.ajax({
                 type: "GET",
+                async:false,
                 url: "https://jsonplaceholder.typicode.com/users",
                 dataType: "json",
                 success: function (jsonResponse) {
-        
- 
+                   
+                    app.decision = true;
                     data = jsonResponse;  
-                    this.users = data;
 
-                    console.log(this.users);
+
+                    app.users_data = data;
+
+                    console.log(this.users_data);
 
                 },
                 failure: function (data) {
